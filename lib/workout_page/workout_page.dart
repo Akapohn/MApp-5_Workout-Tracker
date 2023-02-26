@@ -53,33 +53,30 @@ class _WorkoutPage extends State<WorkoutPage> {
   
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => WorkoutData(),
-        child:Consumer<WorkoutData>(
-            builder: (context, value, child) => Scaffold(
-                appBar: AppBar(
-                  title: const Text("Workout List"),
-                  actions: const [
-                    IconButton(onPressed: null, icon: Icon(Icons.edit))
-                  ],
-                ),
-                floatingActionButton: FloatingActionButton(
-                  onPressed: createNewWorkout,
-                  child: const Icon(Icons.add),
-                ),
-                body: ListView.builder(
-                  itemCount: value.getWorkoutList().length,
-                  itemBuilder: (context, index) => ListTile(
-                    title: Text(value.getWorkoutList()[index].name),
-                    onTap: () =>
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) =>
-                            ExercisePage(
-                                workoutName: value.getWorkoutList()[index].name
-                            ))
-                        ),
-                  )
-                )
+    return Consumer<WorkoutData>(
+        builder: (context, value, child) => Scaffold(
+            appBar: AppBar(
+              title: const Text("Workout List"),
+              actions: const [
+                IconButton(onPressed: null, icon: Icon(Icons.edit))
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: createNewWorkout,
+              child: const Icon(Icons.add),
+            ),
+            body: ListView.builder(
+              itemCount: value.getWorkoutList().length,
+              itemBuilder: (context, index) => ListTile(
+                title: Text(value.getWorkoutList()[index].name),
+                onTap: () =>
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) =>
+                        ExercisePage(
+                            workoutName: value.getWorkoutList()[index].name
+                        ))
+                    ),
+              )
             )
         )
     );

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/workout_page/workout_data.dart';
 import 'package:provider/provider.dart';
