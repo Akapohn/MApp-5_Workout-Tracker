@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Name",
+    "exercises": [
+      {
+        "title": "wt1",
+        "type": "Weight training",
+        "duration": 60
+      },
+      {
+        "title": "co1",
+        "type": "Cardio",
+        "duration": 60
+      }
+    ]
+  },
+  {
+    "title": "Name2",
+    "exercises": [
+      {
+        "title": "wt2.1",
+        "type": "Weight training",
+        "duration": 60
+      },
+      {
+        "title": "co2.1",
+        "type": "Cardio",
+        "duration": 60
+      }
+    ]
+  },
+  {
+    "title": "Name3",
+    "exercises": [
+      {
+        "title": "wt3.1",
+        "type": "Weight training",
+        "duration": 60
+      },
+      {
+        "title": "co3.1",
+        "type": "Cardio",
+        "duration": 60
+      }
+    ]
+  }
+]
