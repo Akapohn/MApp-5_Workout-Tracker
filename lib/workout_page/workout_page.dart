@@ -11,28 +11,32 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPage extends State<WorkoutPage> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<WorkoutData>(context, listen: false).initalizeWorkoutList();
+  }
 
   final newWorkoutController = TextEditingController();
-  
+
   void createNewWorkout() {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text("Name"),
-          content: TextField(controller: newWorkoutController),
-          actions: [
-            // Save btn
-            MaterialButton(
-              onPressed: save,
-              child: const Text("Save"),
-            ),
-            // Cancel btn
-            MaterialButton(
-              onPressed: cancel,
-              child: const Text("Cancel"),
-            )
-          ])
-    );
+                title: const Text("Name"),
+                content: TextField(controller: newWorkoutController),
+                actions: [
+                  // Save btn
+                  MaterialButton(
+                    onPressed: save,
+                    child: const Text("Save"),
+                  ),
+                  // Cancel btn
+                  MaterialButton(
+                    onPressed: cancel,
+                    child: const Text("Cancel"),
+                  )
+                ]));
   }
 
   void save() {
@@ -50,7 +54,7 @@ class _WorkoutPage extends State<WorkoutPage> {
   void clear() {
     newWorkoutController.clear();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
@@ -66,19 +70,13 @@ class _WorkoutPage extends State<WorkoutPage> {
               child: const Icon(Icons.add),
             ),
             body: ListView.builder(
-              itemCount: value.getWorkoutList().length,
-              itemBuilder: (context, index) => ListTile(
-                title: Text(value.getWorkoutList()[index].name),
-                onTap: () =>
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) =>
-                        ExercisePage(
-                            workoutName: value.getWorkoutList()[index].name
-                        ))
-                    ),
-              )
-            )
-        )
-    );
+                itemCount: value.getWorkoutList().length,
+                itemBuilder: (context, index) => ListTile(
+                      title: Text(value.getWorkoutList()[index].name),
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ExercisePage(
+                              workoutName:
+                                  value.getWorkoutList()[index].name))),
+                    ))));
   }
 }

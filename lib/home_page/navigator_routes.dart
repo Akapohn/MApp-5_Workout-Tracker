@@ -14,14 +14,14 @@ class NavigatorRoutes extends StatefulWidget {
 class _NavigatorRoutes extends State<NavigatorRoutes> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pageWidget = <Widget> [
+  final List<Widget> _pageWidget = <Widget>[
     const HomePage(),
     const WorkoutPage(),
     const CalendarPage(),
   ];
 
   final List<BottomNavigationBarItem> _menuBar =
-  const <BottomNavigationBarItem> [
+      const <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       icon: Icon(Icons.home),
       label: 'Home',

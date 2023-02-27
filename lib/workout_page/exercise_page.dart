@@ -12,7 +12,7 @@ class ExercisePage extends StatefulWidget {
 
 class _ExercisePage extends State<ExercisePage> {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
         builder: (context, value, child) => Scaffold(
             appBar: AppBar(
@@ -28,10 +28,11 @@ class _ExercisePage extends State<ExercisePage> {
             body: ListView.builder(
               itemCount: value.numberOfExerciseInWorkout(widget.workoutName),
               itemBuilder: (context, index) => ListTile(
-                title: Text(value.getRelevantWorkout(widget.workoutName).exercises[index].name),
+                title: Text(value
+                    .getRelevantWorkout(widget.workoutName)
+                    .exercises[index]
+                    .name),
               ),
-            )
-        )
-    );
+            )));
   }
 }

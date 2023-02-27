@@ -3,9 +3,5 @@ class Exercise {
   final String type;
   bool isCompleted;
 
-  Exercise({
-    required this.name,
-    required this.type,
-    this.isCompleted = false
-  });
+  Exercise({required this.name, required this.type, this.isCompleted = false});
 }
