@@ -7,9 +7,14 @@ class WorkoutData extends ChangeNotifier {
   final db = HiveDatabase();
 
   List<Workout> workoutList = [
-    Workout(name: "Set1", exercises: [Exercise(name: "ex1", type: "Cardio")])
+    Workout(name: "Push Day", exercises: [
+      Exercise(name: "Bicep Curls", weight: "80", reps: "50", sets: "3")
+    ]),
+    Workout(name: "Push Day", exercises: [
+      Exercise(name: "Bicep Curls", weight: "80", reps: "50", sets: "3")
+    ]),
   ];
-
+  
   // check first time on app
   void initalizeWorkoutList() {
     if (db.previousDateExists()) {
@@ -40,11 +45,11 @@ class WorkoutData extends ChangeNotifier {
   }
 
   // add exercise
-  void addExercise(String wName, String type) {
+  void addExercise(String wName, String exerciseName, String weight,String reps, String sets) {
     Workout relevantWorkout =
         workoutList.firstWhere((workout) => workout.name == wName);
 
-    relevantWorkout.exercises.add(Exercise(name: wName, type: type));
+    relevantWorkout.exercises.add(Exercise(name: exerciseName, weight: weight, reps:reps,sets: sets));
 
     notifyListeners();
     db.saveData(workoutList);
@@ -55,6 +60,8 @@ class WorkoutData extends ChangeNotifier {
     Exercise relevantExercise = getRelevantExercise(wName, exName);
 
     relevantExercise.isCompleted = !relevantExercise.isCompleted;
+
+    notifyListeners();
   }
 
   Workout getRelevantWorkout(String wName) {
