@@ -6,15 +6,8 @@ import 'exercise.dart';
 class WorkoutData extends ChangeNotifier {
   final db = HiveDatabase();
 
-  List<Workout> workoutList = [
-    Workout(name: "Push Day", exercises: [
-      Exercise(name: "Bicep Curls", weight: "80", reps: "50", sets: "3")
-    ]),
-    Workout(name: "Push Day", exercises: [
-      Exercise(name: "Bicep Curls", weight: "80", reps: "50", sets: "3")
-    ]),
-  ];
-  
+  List<Workout> workoutList = [];
+
   // check first time on app
   void initalizeWorkoutList() {
     if (db.previousDateExists()) {
@@ -45,11 +38,18 @@ class WorkoutData extends ChangeNotifier {
   }
 
   // add exercise
-  void addExercise(String wName, String exerciseName, String weight,String reps, String sets) {
+  void addExercise(String wName, String exerciseName, String type, String time,
+      String weight, String reps, String sets) {
     Workout relevantWorkout =
         workoutList.firstWhere((workout) => workout.name == wName);
 
-    relevantWorkout.exercises.add(Exercise(name: exerciseName, weight: weight, reps:reps,sets: sets));
+    relevantWorkout.exercises.add(Exercise(
+        name: exerciseName,
+        type: type,
+        time: time,
+        weight: weight,
+        reps: reps,
+        sets: sets));
 
     notifyListeners();
     db.saveData(workoutList);

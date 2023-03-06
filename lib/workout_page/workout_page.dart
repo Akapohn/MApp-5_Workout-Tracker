@@ -17,6 +17,7 @@ class _WorkoutPage extends State<WorkoutPage> {
     Provider.of<WorkoutData>(context, listen: false).initalizeWorkoutList();
   }
 
+  final _formKey = GlobalKey<FormState>();
   final newWorkoutController = TextEditingController();
 
   void createNewWorkout() {
@@ -24,18 +25,31 @@ class _WorkoutPage extends State<WorkoutPage> {
         context: context,
         builder: (context) => AlertDialog(
                 title: const Text("Name"),
-                content: TextField(controller: newWorkoutController),
+                content: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: newWorkoutController,
+                      validator: (value) {
+                        return value!.isNotEmpty ? null : "Invalid Field";
+                      },
+                      decoration: const InputDecoration(
+                          hintText: "Enter the workout name"),
+                    )),
                 actions: [
-                  // Save btn
-                  MaterialButton(
-                    onPressed: save,
-                    child: const Text("Save"),
-                  ),
                   // Cancel btn
                   MaterialButton(
                     onPressed: cancel,
                     child: const Text("Cancel"),
-                  )
+                  ),
+                  // Save btn
+                  MaterialButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        save();
+                      }
+                    },
+                    child: const Text("Save"),
+                  ),
                 ]));
   }
 

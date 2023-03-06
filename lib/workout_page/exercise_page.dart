@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/workout_page/exercise_tile.dart';
 import 'package:project/workout_page/workout_data.dart';
 import 'package:provider/provider.dart';
 
@@ -11,53 +12,151 @@ class ExercisePage extends StatefulWidget {
 }
 
 class _ExercisePage extends State<ExercisePage> {
+  final _formKey = GlobalKey<FormState>();
   final exerciseNameController = TextEditingController();
+  final timeController = TextEditingController();
   final weightController = TextEditingController();
   final repsController = TextEditingController();
   final setsController = TextEditingController();
+  bool weightTraining = false;
+  bool cardio = false;
 
-  void createNewExercise() {
-    showDialog(
+  Future<void> createNewExercise(BuildContext context) async {
+    return await showDialog(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
                 title: const Text("Add a new exercise"),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: exerciseNameController,
-                    ),
-                    TextField(
-                      controller: weightController,
-                    ),
-                    TextField(
-                      controller: repsController,
-                    ),
-                    TextField(
-                      controller: setsController,
-                    )
-                  ],
-                ),
+                content: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextFormField(
+                          controller: exerciseNameController,
+                          validator: (value) {
+                            return value!.isNotEmpty ? null : "Invalid Field";
+                          },
+                          decoration: const InputDecoration(
+                              hintText: "Enter the exercise name"),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ActionChip(
+                                backgroundColor:
+                                    weightTraining ? Colors.green : null,
+                                label: const Text("Weight Training"),
+                                onPressed: () {
+                                  setState(() {
+                                    weightTraining = !weightTraining;
+                                  });
+                                }),
+                            ActionChip(
+                                backgroundColor: cardio ? Colors.green : null,
+                                label: const Text("Cardio"),
+                                onPressed: () {
+                                  setState(() {
+                                    cardio = !cardio;
+                                  });
+                                })
+                          ],
+                        ),
+                        Column(
+                            children: weightTraining && !cardio
+                                ? [
+                                    // Weight
+                                    TextFormField(
+                                      controller: weightController,
+                                      validator: (value) {
+                                        return value!.isNotEmpty
+                                            ? null
+                                            : "Invalid Field";
+                                      },
+                                      decoration: const InputDecoration(
+                                          hintText: "Weight (kg)"),
+                                    ),
+                                    // Reps
+                                    TextFormField(
+                                      controller: repsController,
+                                      validator: (value) {
+                                        return value!.isNotEmpty
+                                            ? null
+                                            : "Invalid Field";
+                                      },
+                                      decoration: const InputDecoration(
+                                          hintText: "Reps"),
+                                    ),
+                                    // Sets
+                                    TextFormField(
+                                      controller: setsController,
+                                      validator: (value) {
+                                        return value!.isNotEmpty
+                                            ? null
+                                            : "Invalid Field";
+                                      },
+                                      decoration: const InputDecoration(
+                                          hintText: "Sets"),
+                                    )
+                                  ]
+                                : cardio && !weightTraining
+                                    ? [
+                                        // Time
+                                        TextFormField(
+                                          controller: timeController,
+                                          validator: (value) {
+                                            return value!.isNotEmpty
+                                                ? null
+                                                : "Invalid Field";
+                                          },
+                                          decoration: const InputDecoration(
+                                              hintText: "Time (min)"),
+                                        )
+                                      ]
+                                    : [])
+                      ],
+                    )),
                 actions: [
-                  // Save btn
-                  MaterialButton(
-                    onPressed: save,
-                    child: const Text("Save"),
-                  ),
                   // Cancel btn
                   MaterialButton(
                     onPressed: cancel,
                     child: const Text("Cancel"),
+                  ),
+                  // Save btn
+                  MaterialButton(
+                    onPressed: () {
+                      if ((weightTraining && cardio) ||
+                          (!weightTraining && !cardio)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Choose one type')));
+                      }
+                      if (_formKey.currentState!.validate()) {
+                        save();
+                      }
+                    },
+                    child: const Text("Save"),
                   )
-                ]));
+                ]);
+          });
+        });
   }
 
   void save() {
     String newExerciseName = exerciseNameController.text;
-    String weight = weightController.text;
-    String reps = repsController.text;
-    String sets = setsController.text;
-    Provider.of<WorkoutData>(context, listen: false).addExercise(widget.workoutName, newExerciseName, weight, reps, sets);
+    String nType = weightTraining && !cardio ? "Weight Training" : "Cardio";
+    String nTime = timeController.text;
+    String nWeight = weightController.text;
+    String nReps = repsController.text;
+    String nSets = setsController.text;
+    Provider.of<WorkoutData>(context, listen: false).addExercise(
+        widget.workoutName,
+        newExerciseName,
+        nType,
+        cardio ? nTime : "",
+        nWeight,
+        nReps,
+        nSets);
     Navigator.pop(context);
     clear();
   }
@@ -69,9 +168,12 @@ class _ExercisePage extends State<ExercisePage> {
 
   void clear() {
     exerciseNameController.clear();
+    timeController.clear();
     weightController.clear();
     repsController.clear();
     setsController.clear();
+    weightTraining = false;
+    cardio = false;
   }
 
   @override
@@ -85,28 +187,41 @@ class _ExercisePage extends State<ExercisePage> {
               ],
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: createNewExercise,
-              child: Icon(Icons.add),
+              onPressed: () async {
+                await createNewExercise(context);
+              },
+              child: const Icon(Icons.add),
             ),
             body: ListView.builder(
-              itemCount: value.numberOfExerciseInWorkout(widget.workoutName),
-              itemBuilder: (context, index) => ListTile(
-                title: Text(value
-                    .getRelevantWorkout(widget.workoutName)
-                    .exercises[index]
-                    .name),
-                subtitle: Row(children: [
-                  Chip(
-                      label: Text(
-                          "${value.getRelevantWorkout(widget.workoutName).exercises[index].weight} kg")),
-                  Chip(
-                      label: Text(
-                          "${value.getRelevantWorkout(widget.workoutName).exercises[index].reps} reps")),
-                  Chip(
-                      label: Text(
-                          "${value.getRelevantWorkout(widget.workoutName).exercises[index].sets} sets"))
-                ]),
-              ),
-            )));
+                itemCount: value.numberOfExerciseInWorkout(widget.workoutName),
+                itemBuilder: (context, index) => ExerciseTile(
+                    exerciseName: value
+                        .getRelevantWorkout(widget.workoutName)
+                        .exercises[index]
+                        .name,
+                    type: value
+                        .getRelevantWorkout(widget.workoutName)
+                        .exercises[index]
+                        .type,
+                    time: value
+                        .getRelevantWorkout(widget.workoutName)
+                        .exercises[index]
+                        .time,
+                    weight: value
+                        .getRelevantWorkout(widget.workoutName)
+                        .exercises[index]
+                        .weight,
+                    reps: value
+                        .getRelevantWorkout(widget.workoutName)
+                        .exercises[index]
+                        .reps,
+                    sets: value
+                        .getRelevantWorkout(widget.workoutName)
+                        .exercises[index]
+                        .sets,
+                    isCompleted: value
+                        .getRelevantWorkout(widget.workoutName)
+                        .exercises[index]
+                        .isCompleted))));
   }
 }

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   await Hive.initFlutter();
 
-  await Hive.openBox("exercise_database");
+  await Hive.openBox("TypeTest7");
 
   runApp(const MyApp());
 }

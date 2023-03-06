@@ -4,7 +4,7 @@ import 'package:project/workout_page/exercise.dart';
 import 'workout.dart';
 
 class HiveDatabase {
-  final _box = Hive.box("exercise_database");
+  final _box = Hive.box("TypeTest7");
 
   // check, is record start date?
   bool previousDateExists() {
@@ -49,10 +49,12 @@ class HiveDatabase {
       for (int j = 0; j < exerciseDetails[i].length; j++) {
         exercisesInWorkout.add(Exercise(
             name: exerciseDetails[i][j][0],
-            weight: exerciseDetails[i][j][1],
-            reps: exerciseDetails[i][j][2],
-            sets: exerciseDetails[i][j][3],
-            isCompleted: exerciseDetails[i][j][4] == "true" ? true : false));
+            type: exerciseDetails[i][j][1],
+            time: exerciseDetails[i][j][2],
+            weight: exerciseDetails[i][j][3],
+            reps: exerciseDetails[i][j][4],
+            sets: exerciseDetails[i][j][5],
+            isCompleted: exerciseDetails[i][j][6] == "true" ? true : false));
       }
 
       Workout workout =
@@ -107,6 +109,8 @@ List<List<List<String>>> convertExercise(List<Workout> workouts) {
 
       individualExercise.addAll([
         exerciseInWorkout[j].name,
+        exerciseInWorkout[j].type,
+        exerciseInWorkout[j].time,
         exerciseInWorkout[j].weight,
         exerciseInWorkout[j].reps,
         exerciseInWorkout[j].sets,
