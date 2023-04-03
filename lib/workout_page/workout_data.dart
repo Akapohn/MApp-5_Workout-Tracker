@@ -6,7 +6,10 @@ import 'exercise.dart';
 class WorkoutData extends ChangeNotifier {
   final db = HiveDatabase();
 
-  List<Workout> workoutList = [];
+  List<Workout> workoutList = [
+    // Example data
+    // List<Workout>[List<Exercise>[List<ExerciseInfo>]]
+  ];
 
   // check first time on app
   void initalizeWorkoutList() {
@@ -17,12 +20,12 @@ class WorkoutData extends ChangeNotifier {
     }
   }
 
-  // get the list
+  // get the workout list
   List<Workout> getWorkoutList() {
     return workoutList;
   }
 
-  // get length
+  // get length exercise in workout list
   int numberOfExerciseInWorkout(String wName) {
     Workout relevantWorkout = getRelevantWorkout(wName);
 
@@ -55,15 +58,17 @@ class WorkoutData extends ChangeNotifier {
     db.saveData(workoutList);
   }
 
-  // check
+  // Mark that done
   void checkOffExercise(String wName, String exName) {
     Exercise relevantExercise = getRelevantExercise(wName, exName);
 
     relevantExercise.isCompleted = !relevantExercise.isCompleted;
 
     notifyListeners();
+    db.saveData(workoutList);
   }
 
+// Get workout name
   Workout getRelevantWorkout(String wName) {
     Workout relevantWorkout =
         workoutList.firstWhere((workout) => workout.name == wName);
@@ -71,6 +76,7 @@ class WorkoutData extends ChangeNotifier {
     return relevantWorkout;
   }
 
+// Get exercise name
   Exercise getRelevantExercise(String wName, String exName) {
     Workout relevantWorkout = getRelevantWorkout(wName);
 
@@ -78,5 +84,23 @@ class WorkoutData extends ChangeNotifier {
         .firstWhere((exercise) => exercise.name == exName);
 
     return relevantExercise;
+  }
+
+  int getFalseIndex(String wName) {
+    Workout relevantWorkout = getRelevantWorkout(wName);
+    int index = 0;
+    while (relevantWorkout.exercises[index].isCompleted) {
+      index++;
+    }
+    return index;
+  }
+
+  bool allDone(String wName) {
+    int index = getFalseIndex(wName);
+    if (index >= numberOfExerciseInWorkout(wName)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

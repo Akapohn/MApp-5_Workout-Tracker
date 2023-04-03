@@ -40,7 +40,7 @@ class HiveDatabase {
   List<Workout> readData() {
     List<Workout> savedWorkouts = [];
 
-    List<String> workoutNames = _box.get("WORKOUTS");
+    List<dynamic> workoutNames = _box.get("WORKOUTS");
     final exerciseDetails = _box.get("EXERCISES");
 
     for (int i = 0; i < workoutNames.length; i++) {
@@ -85,8 +85,8 @@ class HiveDatabase {
 }
 
 // convert workout object to list
-List<String> convertWorkout(List<Workout> workouts) {
-  List<String> workoutList = [];
+List<dynamic> convertWorkout(List<Workout> workouts) {
+  List<dynamic> workoutList = [];
 
   for (int i = 0; i < workouts.length; i++) {
     workoutList.add(workouts[i].name);
@@ -96,16 +96,16 @@ List<String> convertWorkout(List<Workout> workouts) {
 }
 
 // convert exercise in workout to list
-List<List<List<String>>> convertExercise(List<Workout> workouts) {
-  List<List<List<String>>> exerciseList = [];
+List<List<List<dynamic>>> convertExercise(List<Workout> workouts) {
+  List<List<List<dynamic>>> exerciseList = [];
 
   for (int i = 0; i < workouts.length; i++) {
     List<Exercise> exerciseInWorkout = workouts[i].exercises;
 
-    List<List<String>> individualWorkout = [];
+    List<List<dynamic>> individualWorkout = [];
 
     for (int j = 0; j < exerciseInWorkout.length; j++) {
-      List<String> individualExercise = [];
+      List<dynamic> individualExercise = [];
 
       individualExercise.addAll([
         exerciseInWorkout[j].name,

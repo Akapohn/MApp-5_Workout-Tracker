@@ -34,10 +34,10 @@ class ExerciseTile extends StatelessWidget {
                       Chip(label: Text("$sets sets"))
                     ]
                   : [Chip(label: Text(type)), Chip(label: Text("$time min"))]),
-          leading: const IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: null,
-          ),
+          // leading: const IconButton(
+          //   icon: Icon(Icons.edit),
+          //   onPressed: null,
+          // ),
           trailing: Icon(isCompleted
               ? Icons.check_circle_outline_outlined
               : Icons.circle_outlined),

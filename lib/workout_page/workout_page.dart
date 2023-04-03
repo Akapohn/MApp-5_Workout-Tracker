@@ -88,6 +88,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                 itemBuilder: (context, index) => ListTile(
                       title: Text(value.getWorkoutList()[index].name),
                       onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          settings: const RouteSettings(name: "/ExercisePage"),
                           builder: (context) => ExercisePage(
                               workoutName:
                                   value.getWorkoutList()[index].name))),
