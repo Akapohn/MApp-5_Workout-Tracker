@@ -10,9 +10,9 @@ class Exercise {
   Exercise(
       {required this.name,
       required this.type,
-      this.time = "",
-      this.weight = "",
-      this.reps = "",
-      this.sets = "",
+      this.time = '0',
+      this.weight = '',
+      this.reps = '',
+      this.sets = '',
       this.isCompleted = false});
 }

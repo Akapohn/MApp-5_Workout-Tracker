@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project/components/workkout_tile.dart';
 import 'package:project/workout_page/exercise_page.dart';
 import 'package:project/workout_page/workout_data.dart';
 import 'package:provider/provider.dart';
+import '../components/my_textfield.dart';
 
 class WorkoutPage extends StatefulWidget {
   const WorkoutPage({super.key});
@@ -11,12 +13,6 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPage extends State<WorkoutPage> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<WorkoutData>(context, listen: false).initalizeWorkoutList();
-  }
-
   final _formKey = GlobalKey<FormState>();
   final newWorkoutController = TextEditingController();
 
@@ -69,28 +65,82 @@ class _WorkoutPage extends State<WorkoutPage> {
     newWorkoutController.clear();
   }
 
+  void goToWorkoutPage(String workoutName) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ExercisePage(workoutName: workoutName),
+      ),
+    );
+  }
+
+  void editWorkoutName(String currentWorkoutName) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Edit"),
+        content: MyTextField(
+          controller: newWorkoutController,
+          hintText: "Edit workout name",
+        ),
+        actions: [
+          // cancel
+          MaterialButton(
+            onPressed: cancel,
+            child: const Text(
+              "Cancel",
+            ),
+          ),
+          // save
+          MaterialButton(
+            onPressed: () {
+              String newWorkoutName = newWorkoutController.text;
+              Provider.of<WorkoutData>(context, listen: false).editWorkoutName(
+                currentWorkoutName,
+                newWorkoutName,
+              );
+              cancel();
+            },
+            child: const Text(
+              "Save",
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void deleteWorkout(String workoutName) {
+    Provider.of<WorkoutData>(context, listen: false).deleteWorkout(workoutName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
         builder: (context, value, child) => Scaffold(
-            appBar: AppBar(
-              title: const Text("Workout List"),
-              actions: const [
-                IconButton(onPressed: null, icon: Icon(Icons.edit))
-              ],
-            ),
+            appBar: AppBar(title: const Text("Workout List")),
             floatingActionButton: FloatingActionButton(
               onPressed: createNewWorkout,
               child: const Icon(Icons.add),
             ),
             body: ListView.builder(
                 itemCount: value.getWorkoutList().length,
-                itemBuilder: (context, index) => ListTile(
-                      title: Text(value.getWorkoutList()[index].name),
+                itemBuilder: (context, index) => GestureDetector(
                       onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          settings: const RouteSettings(name: "/ExercisePage"),
                           builder: (context) => ExercisePage(
                               workoutName:
                                   value.getWorkoutList()[index].name))),
+                      child: WorkoutTile(
+                        workoutName: value.getWorkoutList()[index].name,
+                        onPressed: () =>
+                            goToWorkoutPage(value.getWorkoutList()[index].name),
+                        onEditTapped: (context) =>
+                            editWorkoutName(value.getWorkoutList()[index].name),
+                        onDeleteTapped: (context) =>
+                            deleteWorkout(value.getWorkoutList()[index].name),
+                      ),
                     ))));
   }
 }
+

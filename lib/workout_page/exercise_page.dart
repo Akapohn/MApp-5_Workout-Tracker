@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project/workout_page/exercise_tile.dart';
+import 'package:flutter/services.dart';
+import 'package:project/components/exercise_tile.dart';
+import 'package:project/workout_page/start_exercise.dart';
 import 'package:project/workout_page/workout_data.dart';
 import 'package:provider/provider.dart';
 
@@ -14,12 +16,13 @@ class ExercisePage extends StatefulWidget {
 class _ExercisePage extends State<ExercisePage> {
   final _formKey = GlobalKey<FormState>();
   final exerciseNameController = TextEditingController();
-  final timeController = TextEditingController();
-  final weightController = TextEditingController();
-  final repsController = TextEditingController();
-  final setsController = TextEditingController();
+  final TextEditingController timeController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+  final TextEditingController repsController = TextEditingController();
+  final TextEditingController setsController = TextEditingController();
   bool weightTraining = false;
   bool cardio = false;
+  bool canStart = true;
 
   Future<void> createNewExercise(BuildContext context) async {
     return await showDialog(
@@ -65,7 +68,8 @@ class _ExercisePage extends State<ExercisePage> {
                         ),
                         Column(
                             children: weightTraining && !cardio
-                                ? [
+                                ? // Weight training input
+                                [
                                     // Weight
                                     TextFormField(
                                       controller: weightController,
@@ -76,6 +80,10 @@ class _ExercisePage extends State<ExercisePage> {
                                       },
                                       decoration: const InputDecoration(
                                           hintText: "Weight (kg)"),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
                                     ),
                                     // Reps
                                     TextFormField(
@@ -87,6 +95,10 @@ class _ExercisePage extends State<ExercisePage> {
                                       },
                                       decoration: const InputDecoration(
                                           hintText: "Reps"),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
                                     ),
                                     // Sets
                                     TextFormField(
@@ -98,10 +110,15 @@ class _ExercisePage extends State<ExercisePage> {
                                       },
                                       decoration: const InputDecoration(
                                           hintText: "Sets"),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
                                     )
                                   ]
                                 : cardio && !weightTraining
-                                    ? [
+                                    ? // Cardio input
+                                    [
                                         // Time
                                         TextFormField(
                                           controller: timeController,
@@ -112,6 +129,11 @@ class _ExercisePage extends State<ExercisePage> {
                                           },
                                           decoration: const InputDecoration(
                                               hintText: "Time (min)"),
+                                          keyboardType: TextInputType.number,
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
                                         )
                                       ]
                                     : [])
@@ -153,7 +175,7 @@ class _ExercisePage extends State<ExercisePage> {
         widget.workoutName,
         newExerciseName,
         nType,
-        cardio ? nTime : "",
+        cardio ? nTime : '',
         nWeight,
         nReps,
         nSets);
@@ -176,22 +198,40 @@ class _ExercisePage extends State<ExercisePage> {
     cardio = false;
   }
 
+  void deleteExercise(String workoutName, String exerciseName) {
+    Provider.of<WorkoutData>(context, listen: false)
+        .deleteExercise(workoutName, exerciseName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
         builder: (context, value, child) => Scaffold(
-            appBar: AppBar(
-              title: Text(widget.workoutName),
-              actions: const [
-                IconButton(onPressed: null, icon: Icon(Icons.edit))
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                await createNewExercise(context);
-              },
-              child: const Icon(Icons.add),
-            ),
+            appBar: AppBar(title: Text(widget.workoutName), actions: [
+              IconButton(
+                  onPressed: () async {
+                    await createNewExercise(context);
+                  },
+                  icon: const Icon(Icons.add))
+            ]),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Container(
+                margin: const EdgeInsets.all(10),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50)),
+                  // Press Start Btn
+                  onPressed: canStart
+                      ? () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              StartExercise(workoutName: widget.workoutName)))
+                      : null,
+                  child: const Text(
+                    "Start",
+                    style: TextStyle(fontSize: 30),
+                  ),
+                )),
             body: ListView.builder(
                 itemCount: value.numberOfExerciseInWorkout(widget.workoutName),
                 itemBuilder: (context, index) => ExerciseTile(
@@ -219,6 +259,13 @@ class _ExercisePage extends State<ExercisePage> {
                         .getRelevantWorkout(widget.workoutName)
                         .exercises[index]
                         .sets,
+                    onDeletePressed: (context) => deleteExercise(
+                          widget.workoutName,
+                          value
+                              .getRelevantWorkout(widget.workoutName)
+                              .exercises[index]
+                              .name,
+                        ),
                     isCompleted: value
                         .getRelevantWorkout(widget.workoutName)
                         .exercises[index]
