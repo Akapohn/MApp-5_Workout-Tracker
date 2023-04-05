@@ -198,6 +198,8 @@ class _ExercisePage extends State<ExercisePage> {
     cardio = false;
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
