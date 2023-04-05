@@ -55,7 +55,7 @@ class WorkoutTile extends StatelessWidget {
                 fontSize: 20,
               ),
             ),
-            leading: Image.asset('lib/images/barbell.png', height: 36),
+            leading: Image.asset('assets/barbell.png', height: 36),
             trailing: IconButton(
               onPressed: onPressed,
               icon: const Icon(

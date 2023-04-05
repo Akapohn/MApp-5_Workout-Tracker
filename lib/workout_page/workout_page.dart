@@ -13,12 +13,6 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPage extends State<WorkoutPage> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<WorkoutData>(context, listen: false).initalizeWorkoutList();
-  }
-
   final _formKey = GlobalKey<FormState>();
   final newWorkoutController = TextEditingController();
 
@@ -129,12 +123,7 @@ class _WorkoutPage extends State<WorkoutPage> {
   Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
         builder: (context, value, child) => Scaffold(
-            appBar: AppBar(
-              title: const Text("Workout List"),
-              actions: const [
-                IconButton(onPressed: null, icon: Icon(Icons.edit))
-              ],
-            ),
+            appBar: AppBar(title: const Text("Workout List")),
             floatingActionButton: FloatingActionButton(
               onPressed: createNewWorkout,
               child: const Icon(Icons.add),

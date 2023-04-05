@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/workout_page/cardio_countdown.dart';
 import 'package:project/workout_page/workout_data.dart';
 import 'package:provider/provider.dart';
 
@@ -24,10 +25,6 @@ class _StartExercise extends State<StartExercise> {
       exerciseIndex--;
     });
   }
-
-  // void markCompletion(WorkoutData value) {
-  //   if ()
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +98,7 @@ class _StartExercise extends State<StartExercise> {
                               // Type
                               Container(
                                   margin: const EdgeInsets.only(
-                                      top: 100, bottom: 30),
+                                      top: 30, bottom: 60),
                                   child: Text(
                                       value
                                           .getRelevantWorkout(
@@ -120,7 +117,14 @@ class _StartExercise extends State<StartExercise> {
                                               widget.workoutName)
                                           .exercises[exerciseIndex]
                                           .name,
-                                      style: const TextStyle(fontSize: 40)))
+                                      style: const TextStyle(fontSize: 40))),
+                              const Spacer(flex: 3),
+                              CardioCountdown(
+                                  time: int.parse(value
+                                      .getRelevantWorkout(widget.workoutName)
+                                      .exercises[exerciseIndex]
+                                      .time)),
+                              const Spacer(flex: 4)
                             ])),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,

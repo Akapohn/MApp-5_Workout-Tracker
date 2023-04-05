@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:project/workout_page/exercise_tile.dart';
+import 'package:project/components/exercise_tile.dart';
 import 'package:project/workout_page/start_exercise.dart';
 import 'package:project/workout_page/workout_data.dart';
 import 'package:provider/provider.dart';
@@ -198,6 +198,11 @@ class _ExercisePage extends State<ExercisePage> {
     cardio = false;
   }
 
+  void deleteExercise(String workoutName, String exerciseName) {
+    Provider.of<WorkoutData>(context, listen: false)
+        .deleteExercise(workoutName, exerciseName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
@@ -254,6 +259,13 @@ class _ExercisePage extends State<ExercisePage> {
                         .getRelevantWorkout(widget.workoutName)
                         .exercises[index]
                         .sets,
+                    onDeletePressed: (context) => deleteExercise(
+                          widget.workoutName,
+                          value
+                              .getRelevantWorkout(widget.workoutName)
+                              .exercises[index]
+                              .name,
+                        ),
                     isCompleted: value
                         .getRelevantWorkout(widget.workoutName)
                         .exercises[index]
