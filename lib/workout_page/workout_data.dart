@@ -16,8 +16,10 @@ class WorkoutData extends ChangeNotifier {
   void initalizeWorkoutList() {
     if (db.previousDateExists()) {
       workoutList = db.readData();
+      userInfo = db.readUserData();
     } else {
       db.saveData(workoutList);
+      db.saveUserData(userInfo);
     }
 
     loadHeatMap();
@@ -35,9 +37,10 @@ class WorkoutData extends ChangeNotifier {
     return relevantWorkout.exercises.length;
   }
 
-  String getStartDate(){
+  String getStartDate() {
     return db.getStartDate();
   }
+
   // add workout
   void addWorkout(String name) {
     workoutList.add(Workout(name: name, exercises: []));
@@ -112,6 +115,21 @@ class WorkoutData extends ChangeNotifier {
     }
   }
 
+  // User data
+  String userInfo = "UserName";
+
+  // Add uer info to database
+  void changeUserInfo(String userName) {
+    userInfo = userName;
+    notifyListeners();
+    db.saveUserData(userName);
+  }
+
+  String getUserInfo() {
+    return db.readUserData();
+  }
+
+  // Calendar
   Map<DateTime, int> heatMapDataSet = {};
 
   // load heat map
@@ -169,6 +187,3 @@ class WorkoutData extends ChangeNotifier {
     db.saveData(workoutList);
   }
 }
-
-  
-

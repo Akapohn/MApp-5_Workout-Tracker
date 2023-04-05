@@ -4,7 +4,7 @@ import 'package:project/workout_page/exercise.dart';
 import 'workout.dart';
 
 class HiveDatabase {
-  final _box = Hive.box("TypeTest7");
+  final _box = Hive.box("TypeTest11");
 
   // check, is record start date?
   bool previousDateExists() {
@@ -82,6 +82,15 @@ class HiveDatabase {
     int complettion = _box.get("COMPLETION_${todayDate()}") ?? 0;
     return complettion;
   }
+
+  // User Data
+  void saveUserData(String userName) {
+    _box.put("USER_INFO", userName);
+  }
+
+  String readUserData() {
+    return _box.get("USER_INFO");
+  }
 }
 
 // convert workout object to list
@@ -124,7 +133,4 @@ List<List<List<dynamic>>> convertExercise(List<Workout> workouts) {
   }
 
   return exerciseList;
-
 }
-
-
