@@ -198,6 +198,10 @@ class _ExercisePage extends State<ExercisePage> {
     cardio = false;
   }
 
+  void deleteExercise(String workoutName, String exerciseName) {
+    Provider.of<WorkoutData>(context, listen: false)
+        .deleteExercise(workoutName, exerciseName);
+  }
   
 
   @override
@@ -256,6 +260,13 @@ class _ExercisePage extends State<ExercisePage> {
                         .getRelevantWorkout(widget.workoutName)
                         .exercises[index]
                         .sets,
+                    onDeletePressed: (context) => deleteExercise(
+                    widget.workoutName,
+                    value
+                        .getRelevantWorkout(widget.workoutName)
+                        .exercises[index]
+                        .name,
+                  ),
                     isCompleted: value
                         .getRelevantWorkout(widget.workoutName)
                         .exercises[index]

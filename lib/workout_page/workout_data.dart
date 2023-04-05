@@ -168,6 +168,17 @@ class WorkoutData extends ChangeNotifier {
     // save in database
     db.saveData(workoutList);
   }
+
+  void deleteExercise(String workoutName, String exerciseName) {
+    Workout workout = getRelevantWorkout(workoutName);
+    Exercise exercise = getRelevantExercise(workoutName, exerciseName);
+    workout.exercises.remove(exercise);
+
+    notifyListeners();
+    // save in database
+    db.saveData(workoutList);
+  }
+
 }
 
   

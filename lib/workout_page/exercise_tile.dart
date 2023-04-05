@@ -20,6 +20,7 @@ class ExerciseTile extends StatelessWidget {
       required this.reps,
       required this.sets,
       required this.isCompleted,
+      required this.onDeletePressed
       });
 
   @override
@@ -50,7 +51,7 @@ class ExerciseTile extends StatelessWidget {
             child: ListTile(
                 title: Text(
                   exerciseName,
-                  style: const TextStyle(fontSize: 40),
+                  style: const TextStyle(fontSize: 40,fontWeight: FontWeight.bold),
                 ),
                 subtitle: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
