@@ -55,7 +55,7 @@ class _StartExercise extends State<StartExercise> {
                                           .exercises[exerciseIndex]
                                           .type,
                                       style: const TextStyle(
-                                          fontSize: 25,
+                                        fontSize: 25,
                                       ))),
                               // Name
                               Container(
@@ -66,7 +66,9 @@ class _StartExercise extends State<StartExercise> {
                                               widget.workoutName)
                                           .exercises[exerciseIndex]
                                           .name,
-                                      style: const TextStyle(fontSize: 50,fontWeight: FontWeight.bold))),
+                                      style: const TextStyle(
+                                          fontSize: 50,
+                                          fontWeight: FontWeight.bold))),
                               // Content
                               Container(
                                   margin: const EdgeInsets.only(
@@ -79,13 +81,13 @@ class _StartExercise extends State<StartExercise> {
                                         Text(
                                             "${value.getRelevantWorkout(widget.workoutName).exercises[exerciseIndex].reps} reps",
                                             style: const TextStyle(
-                                                fontSize: 40,
+                                              fontSize: 40,
                                             )),
                                         // Sets
                                         Text(
                                             "${value.getRelevantWorkout(widget.workoutName).exercises[exerciseIndex].sets} Sets",
                                             style: const TextStyle(
-                                                fontSize: 40,
+                                              fontSize: 40,
                                             ))
                                       ])),
                               // Weight
@@ -93,14 +95,16 @@ class _StartExercise extends State<StartExercise> {
                                   margin: const EdgeInsets.only(bottom: 200),
                                   child: Text(
                                       "${value.getRelevantWorkout(widget.workoutName).exercises[exerciseIndex].weight} kg",
-                                      style: const TextStyle(fontSize: 60,fontWeight: FontWeight.bold))),
+                                      style: const TextStyle(
+                                          fontSize: 60,
+                                          fontWeight: FontWeight.bold))),
                             ]
                           : // Cardio Content
                           [
                               // Type
                               Container(
                                   margin: const EdgeInsets.only(
-                                      top: 100, bottom: 30),
+                                      top: 30, bottom: 60),
                                   child: Text(
                                       value
                                           .getRelevantWorkout(
@@ -108,7 +112,7 @@ class _StartExercise extends State<StartExercise> {
                                           .exercises[exerciseIndex]
                                           .type,
                                       style: const TextStyle(
-                                          fontSize: 25,
+                                        fontSize: 25,
                                       ))),
                               // Name
                               Container(
@@ -119,12 +123,16 @@ class _StartExercise extends State<StartExercise> {
                                               widget.workoutName)
                                           .exercises[exerciseIndex]
                                           .name,
-                                      style: const TextStyle(fontSize: 40))),
+                                      style: const TextStyle(
+                                          fontSize: 50,
+                                          fontWeight: FontWeight.bold))),
+                              const Spacer(),
                               CardioCountdown(
                                   time: int.parse(value
                                       .getRelevantWorkout(widget.workoutName)
                                       .exercises[exerciseIndex]
-                                      .time))
+                                      .time)),
+                              const Spacer(flex: 4)
                             ])),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,

@@ -4,7 +4,7 @@ import 'package:project/workout_page/exercise.dart';
 import 'workout.dart';
 
 class HiveDatabase {
-  final _box = Hive.box("TypeTest11");
+  final _box = Hive.box("Data1");
 
   // check, is record start date?
   bool previousDateExists() {
