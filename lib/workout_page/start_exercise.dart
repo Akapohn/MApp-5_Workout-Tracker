@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project/workout_page/workout_data.dart';
 import 'package:provider/provider.dart';
 
+import 'cardio_countdown.dart';
+
 class StartExercise extends StatefulWidget {
   final String workoutName;
   const StartExercise({super.key, required this.workoutName});
@@ -120,16 +122,12 @@ class _StartExercise extends State<StartExercise> {
                                               widget.workoutName)
                                           .exercises[exerciseIndex]
                                           .name,
-<<<<<<< Updated upstream
-                                      style: const TextStyle(fontSize: 40)))
-=======
-                                      style: const TextStyle(fontSize: 50,fontWeight: FontWeight.bold))),
+                                      style: const TextStyle(fontSize: 40))),
                               CardioCountdown(
                                   time: int.parse(value
                                       .getRelevantWorkout(widget.workoutName)
                                       .exercises[exerciseIndex]
                                       .time))
->>>>>>> Stashed changes
                             ])),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,
