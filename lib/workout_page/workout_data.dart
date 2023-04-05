@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:project/workout_page/hive_database.dart';
 import 'workout.dart';
 import 'exercise.dart';
+import '../calendar_page/date_time.dart';
 
 class WorkoutData extends ChangeNotifier {
   final db = HiveDatabase();
@@ -18,6 +19,8 @@ class WorkoutData extends ChangeNotifier {
     } else {
       db.saveData(workoutList);
     }
+
+    loadHeatMap();
   }
 
   // get the workout list
@@ -32,6 +35,9 @@ class WorkoutData extends ChangeNotifier {
     return relevantWorkout.exercises.length;
   }
 
+  String getStartDate(){
+    return db.getStartDate();
+  }
   // add workout
   void addWorkout(String name) {
     workoutList.add(Workout(name: name, exercises: []));
@@ -66,6 +72,8 @@ class WorkoutData extends ChangeNotifier {
 
     notifyListeners();
     db.saveData(workoutList);
+
+    loadHeatMap();
   }
 
 // Get workout name
@@ -103,4 +111,64 @@ class WorkoutData extends ChangeNotifier {
       return false;
     }
   }
+
+  Map<DateTime, int> heatMapDataSet = {};
+
+  // load heat map
+  void loadHeatMap() {
+    DateTime startDate = createDateTimeObject(db.getStartDate());
+
+    // count the number of days to load
+    int daysInBetween = DateTime.now().difference(startDate).inDays;
+
+    // go from start date to today and add each completion status to the dataset
+    // "COMPLETION_STATUS_yyyymmdd" will be the key in the database
+    for (int i = 0; i < daysInBetween + 1; i++) {
+      String yyyymmdd = convertDateTimeToYYYYMMDD(
+        startDate.add(Duration(days: i)),
+      );
+
+      // completion status = 0 or 1
+      int completionStatus = db.getCompletion(yyyymmdd);
+
+      // split the datetime up like below so it doesn't worry about hours/mins/secs etc.
+
+      // year
+      int year = startDate.add(Duration(days: i)).year;
+
+      // month
+      int month = startDate.add(Duration(days: i)).month;
+
+      // day
+      int day = startDate.add(Duration(days: i)).day;
+
+      final percentForEachDay = <DateTime, int>{
+        DateTime(year, month, day): completionStatus,
+      };
+
+      heatMapDataSet.addEntries(percentForEachDay.entries);
+      print(heatMapDataSet);
+    }
+  }
+
+  void editWorkoutName(String currentWorkoutName, String newWorkoutName) {
+    Workout workout = getRelevantWorkout(currentWorkoutName);
+    workout.name = newWorkoutName;
+
+    notifyListeners();
+    // save in database
+    db.saveData(workoutList);
+  }
+
+  void deleteWorkout(String workoutName) {
+    Workout _workout = getRelevantWorkout(workoutName);
+    workoutList.remove(_workout);
+
+    notifyListeners();
+    // save in database
+    db.saveData(workoutList);
+  }
 }
+
+  
+
