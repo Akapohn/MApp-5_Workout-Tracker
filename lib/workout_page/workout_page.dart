@@ -79,9 +79,9 @@ class _WorkoutPage extends State<WorkoutPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Edit"),
-        content: MyTextField(
+        content: TextFormField(
           controller: newWorkoutController,
-          hintText: "Edit workout name",
+          decoration: const InputDecoration(hintText: "Edit workout name"),
         ),
         actions: [
           // cancel
@@ -143,4 +143,3 @@ class _WorkoutPage extends State<WorkoutPage> {
                     ))));
   }
 }
-
