@@ -85,8 +85,7 @@ class _CardioCountdown extends State<CardioCountdown> {
             icon: Icon(
               stop ? Icons.play_arrow : Icons.pause,
               size: 50,
-            )
-            )
+            ))
       ],
     );
   }

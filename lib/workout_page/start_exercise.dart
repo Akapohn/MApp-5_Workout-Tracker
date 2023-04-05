@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/workout_page/cardio_countdown.dart';
 import 'package:project/workout_page/workout_data.dart';
 import 'package:provider/provider.dart';
 
@@ -26,10 +27,6 @@ class _StartExercise extends State<StartExercise> {
       exerciseIndex--;
     });
   }
-
-  // void markCompletion(WorkoutData value) {
-  //   if ()
-  // }
 
   @override
   Widget build(BuildContext context) {
