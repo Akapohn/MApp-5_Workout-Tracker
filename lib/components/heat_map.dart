@@ -17,7 +17,7 @@ class MyHeatMap extends StatelessWidget {
       padding: EdgeInsets.only(top: 25,bottom: 25),
       child: HeatMap(
         startDate: createDateTimeObject(startDateYYYYMMDD),
-        endDate: DateTime.now().add(Duration(days: 0)),
+        endDate: DateTime.now().add(Duration(days: 30)),
         datasets: datasets,
         colorMode: ColorMode.color,
         defaultColor: Colors.grey[200],
