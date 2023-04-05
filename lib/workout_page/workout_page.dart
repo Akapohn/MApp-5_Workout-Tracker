@@ -84,12 +84,19 @@ class _WorkoutPage extends State<WorkoutPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900],
+        title: const Text("Edit"),
         content: MyTextField(
           controller: newWorkoutController,
           hintText: "Edit workout name",
         ),
         actions: [
+          // cancel
+          MaterialButton(
+            onPressed: cancel,
+            child: const Text(
+              "Cancel",
+            ),
+          ),
           // save
           MaterialButton(
             onPressed: () {
@@ -100,20 +107,8 @@ class _WorkoutPage extends State<WorkoutPage> {
               );
               cancel();
             },
-            color: Colors.black,
             child: const Text(
               "Save",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-
-          // cancel
-          MaterialButton(
-            onPressed: cancel,
-            color: Colors.black,
-            child: const Text(
-              "Cancel",
-              style: TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -160,13 +155,3 @@ class _WorkoutPage extends State<WorkoutPage> {
   }
 }
 
-/*
-ListTile(
-                      title: Text(value.getWorkoutList()[index].name),
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                          settings: const RouteSettings(name: "/ExercisePage"),
-                          builder: (context) => ExercisePage(
-                              workoutName:
-                                  value.getWorkoutList()[index].name))),
-                    )
-*/

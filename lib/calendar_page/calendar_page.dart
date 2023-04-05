@@ -15,13 +15,14 @@ class _CalendarPage extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
-            builder: ((context, value, child) => Scaffold(
-              appBar: AppBar(title: const Text("Calendar")),
-              body: Center(
-                child: MyHeatMap(datasets: value.heatMapDataSet, startDateYYYYMMDD: value.getStartDate(),)
-              ),
+      builder: ((context, value, child) => Scaffold(
+            appBar: AppBar(title: const Text("Calendar")),
+            body: Center(
+                child: MyHeatMap(
+              datasets: value.heatMapDataSet,
+              startDateYYYYMMDD: value.getStartDate(),
             )),
+          )),
     );
-    
   }
 }

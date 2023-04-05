@@ -98,46 +98,6 @@ class ExerciseTile extends StatelessWidget {
   }
 }
 
-/*
-Icon(isCompleted
-              ? Icons.check_circle_outline_outlined
-              : Icons.circle_outlined),
-*/
 
-/*
-ListTile(
-          title: Text(
-            exerciseName,
-            style: TextStyle(fontSize: 40),
-          ),
-          subtitle: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: type == "Weight Training"
-                  ? [
-                      Text(
-                        "$weight kg",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "$reps reps",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "$sets sets",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )
-                    ]
-                  : [Text("$time min",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)]),
-          // leading: const IconButton(
-          //   icon: Icon(Icons.edit),
-          //   onPressed: null,
-          // ),
-          trailing: Text(
-            type,
-            style: TextStyle(fontSize: 20,),
-          ),
-        )
-*/
+
+
