@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/workout_page/cardio_countdown.dart';
+import 'package:project/components/cardio_countdown.dart';
 import 'package:project/workout_page/workout_data.dart';
 import 'package:provider/provider.dart';
 
