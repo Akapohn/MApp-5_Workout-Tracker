@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project/components/workkout_tile.dart';
 import 'package:project/workout_page/exercise_page.dart';
 import 'package:project/workout_page/workout_data.dart';
 import 'package:provider/provider.dart';
+import '../components/my_textfield.dart';
 
 class WorkoutPage extends StatefulWidget {
   const WorkoutPage({super.key});
@@ -69,6 +71,60 @@ class _WorkoutPage extends State<WorkoutPage> {
     newWorkoutController.clear();
   }
 
+  void goToWorkoutPage(String workoutName) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ExercisePage(workoutName: workoutName),
+      ),
+    );
+  }
+
+  void editWorkoutName(String currentWorkoutName) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.grey[900],
+        content: MyTextField(
+          controller: newWorkoutController,
+          hintText: "Edit workout name",
+        ),
+        actions: [
+          // save
+          MaterialButton(
+            onPressed: () {
+              String newWorkoutName = newWorkoutController.text;
+              Provider.of<WorkoutData>(context, listen: false).editWorkoutName(
+                currentWorkoutName,
+                newWorkoutName,
+              );
+              cancel();
+            },
+            color: Colors.black,
+            child: const Text(
+              "Save",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+
+          // cancel
+          MaterialButton(
+            onPressed: cancel,
+            color: Colors.black,
+            child: const Text(
+              "Cancel",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void deleteWorkout(String workoutName) {
+    Provider.of<WorkoutData>(context, listen: false).deleteWorkout(workoutName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
@@ -85,13 +141,32 @@ class _WorkoutPage extends State<WorkoutPage> {
             ),
             body: ListView.builder(
                 itemCount: value.getWorkoutList().length,
-                itemBuilder: (context, index) => ListTile(
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          settings: const RouteSettings(name: "/ExercisePage"),
+                          builder: (context) => ExercisePage(
+                              workoutName:
+                                  value.getWorkoutList()[index].name))),
+                      child: WorkoutTile(
+                        workoutName: value.getWorkoutList()[index].name,
+                        onPressed: () =>
+                            goToWorkoutPage(value.getWorkoutList()[index].name),
+                        onEditTapped: (context) =>
+                            editWorkoutName(value.getWorkoutList()[index].name),
+                        onDeleteTapped: (context) =>
+                            deleteWorkout(value.getWorkoutList()[index].name),
+                      ),
+                    ))));
+  }
+}
+
+/*
+ListTile(
                       title: Text(value.getWorkoutList()[index].name),
                       onTap: () => Navigator.of(context).push(MaterialPageRoute(
                           settings: const RouteSettings(name: "/ExercisePage"),
                           builder: (context) => ExercisePage(
                               workoutName:
                                   value.getWorkoutList()[index].name))),
-                    ))));
-  }
-}
+                    )
+*/

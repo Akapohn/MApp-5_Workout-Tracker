@@ -24,23 +24,45 @@ class ExerciseTile extends StatelessWidget {
     return Container(
         color: Colors.grey[100],
         child: ListTile(
-          title: Text(exerciseName),
+          title: Text(
+            exerciseName,
+            style: TextStyle(fontSize: 40),
+          ),
           subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: type == "Weight Training"
                   ? [
-                      Chip(label: Text(type)),
-                      Chip(label: Text("$weight kg")),
-                      Chip(label: Text("$reps reps")),
-                      Chip(label: Text("$sets sets"))
+                      Text(
+                        "$weight kg",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "$reps reps",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "$sets sets",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      )
                     ]
-                  : [Chip(label: Text(type)), Chip(label: Text("$time min"))]),
+                  : [Text("$time min",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)]),
           // leading: const IconButton(
           //   icon: Icon(Icons.edit),
           //   onPressed: null,
           // ),
-          trailing: Icon(isCompleted
-              ? Icons.check_circle_outline_outlined
-              : Icons.circle_outlined),
+          trailing: Text(
+            type,
+            style: TextStyle(fontSize: 20,),
+          ),
         ));
   }
 }
+
+/*
+Icon(isCompleted
+              ? Icons.check_circle_outline_outlined
+              : Icons.circle_outlined),
+*/
