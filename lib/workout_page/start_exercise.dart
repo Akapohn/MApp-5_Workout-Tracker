@@ -98,7 +98,7 @@ class _StartExercise extends State<StartExercise> {
                               // Type
                               Container(
                                   margin: const EdgeInsets.only(
-                                      top: 100, bottom: 30),
+                                      top: 30, bottom: 60),
                                   child: Text(
                                       value
                                           .getRelevantWorkout(
@@ -118,11 +118,13 @@ class _StartExercise extends State<StartExercise> {
                                           .exercises[exerciseIndex]
                                           .name,
                                       style: const TextStyle(fontSize: 40))),
+                              const Spacer(flex: 3),
                               CardioCountdown(
                                   time: int.parse(value
                                       .getRelevantWorkout(widget.workoutName)
                                       .exercises[exerciseIndex]
-                                      .time))
+                                      .time)),
+                              const Spacer(flex: 4)
                             ])),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,

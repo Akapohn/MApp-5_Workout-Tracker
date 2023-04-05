@@ -46,46 +46,54 @@ class _CardioCountdown extends State<CardioCountdown> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // Reset btn
-        IconButton(
-            onPressed: () {
-              setState(() {
-                stop = true;
-              });
-              stopTimer(reset: true);
-            },
-            icon: const Icon(Icons.restore)),
+        SizedBox(
+            width: double.infinity,
+            child: IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  setState(() {
+                    stop = true;
+                  });
+                  stopTimer(reset: true);
+                },
+                icon: const Icon(
+                  Icons.restore,
+                  size: 30,
+                ))),
         // Time Text
         Text("${widget.time} : $seconds", style: const TextStyle(fontSize: 60)),
         // Play and Pause Btn
-        IconButton(
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              if (stop) {
-                timer = Timer.periodic(const Duration(seconds: 1), (_) {
-                  if (seconds > 0) {
-                    setState(() {
-                      seconds--;
-                      restoreTime++;
-                    });
-                  } else if (min > 0) {
-                    setState(() {
-                      widget.time--;
-                      restoreTime++;
-                      seconds = 59;
+        SizedBox(
+            width: double.infinity,
+            child: IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  if (stop) {
+                    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+                      if (seconds > 0) {
+                        setState(() {
+                          seconds--;
+                          restoreTime++;
+                        });
+                      } else if (min > 0) {
+                        setState(() {
+                          widget.time--;
+                          restoreTime++;
+                          seconds = 59;
+                        });
+                      } else {
+                        stopTimer();
+                      }
                     });
                   } else {
-                    stopTimer();
+                    stopTimer(reset: false);
                   }
-                });
-              } else {
-                stopTimer(reset: false);
-              }
-              changeState();
-            },
-            icon: Icon(
-              stop ? Icons.play_arrow : Icons.pause,
-              size: 50,
-            ))
+                  changeState();
+                },
+                icon: Icon(
+                  stop ? Icons.play_arrow : Icons.pause,
+                  size: 80,
+                )))
       ],
     );
   }
