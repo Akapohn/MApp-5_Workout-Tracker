@@ -57,7 +57,7 @@ class _StartExercise extends State<StartExercise> {
                                           .type,
                                       style: const TextStyle(
                                           fontSize: 25,
-                                          fontWeight: FontWeight.bold))),
+                                      ))),
                               // Name
                               Container(
                                   margin: const EdgeInsets.only(bottom: 20),
@@ -67,7 +67,7 @@ class _StartExercise extends State<StartExercise> {
                                               widget.workoutName)
                                           .exercises[exerciseIndex]
                                           .name,
-                                      style: const TextStyle(fontSize: 40))),
+                                      style: const TextStyle(fontSize: 50,fontWeight: FontWeight.bold))),
                               // Content
                               Container(
                                   margin: const EdgeInsets.only(
@@ -80,21 +80,21 @@ class _StartExercise extends State<StartExercise> {
                                         Text(
                                             "${value.getRelevantWorkout(widget.workoutName).exercises[exerciseIndex].reps} reps",
                                             style: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold)),
+                                                fontSize: 40,
+                                            )),
                                         // Sets
                                         Text(
                                             "${value.getRelevantWorkout(widget.workoutName).exercises[exerciseIndex].sets} Sets",
                                             style: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold))
+                                                fontSize: 40,
+                                            ))
                                       ])),
                               // Weight
                               Container(
                                   margin: const EdgeInsets.only(bottom: 200),
                                   child: Text(
                                       "${value.getRelevantWorkout(widget.workoutName).exercises[exerciseIndex].weight} kg",
-                                      style: const TextStyle(fontSize: 60))),
+                                      style: const TextStyle(fontSize: 60,fontWeight: FontWeight.bold))),
                             ]
                           : // Cardio Content
                           [
@@ -110,7 +110,7 @@ class _StartExercise extends State<StartExercise> {
                                           .type,
                                       style: const TextStyle(
                                           fontSize: 25,
-                                          fontWeight: FontWeight.bold))),
+                                      ))),
                               // Name
                               Container(
                                   margin: const EdgeInsets.only(bottom: 20),
@@ -120,7 +120,16 @@ class _StartExercise extends State<StartExercise> {
                                               widget.workoutName)
                                           .exercises[exerciseIndex]
                                           .name,
+<<<<<<< Updated upstream
                                       style: const TextStyle(fontSize: 40)))
+=======
+                                      style: const TextStyle(fontSize: 50,fontWeight: FontWeight.bold))),
+                              CardioCountdown(
+                                  time: int.parse(value
+                                      .getRelevantWorkout(widget.workoutName)
+                                      .exercises[exerciseIndex]
+                                      .time))
+>>>>>>> Stashed changes
                             ])),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,
